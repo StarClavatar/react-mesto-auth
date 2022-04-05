@@ -27,15 +27,13 @@ function App(props) {
     const [email,setEmail] = React.useState('');
     const [isRegisered, setIsRegitered] = React.useState(false);
     
-    const handleEditProfileClick = () => { setIsEditProfilePopupOpen(true) } 
-    const handleAddPlaceClick = () => { setIsAddPlacePopupOpen(true) } 
-    const handleEditAvatarClick = () => { setIsEditAvatarPopupOpen(true) } 
+    const handleEditProfileClick = () => { setIsEditProfilePopupOpen(true) };
+    const handleAddPlaceClick = () => { setIsAddPlacePopupOpen(true) }; 
+    const handleEditAvatarClick = () => { setIsEditAvatarPopupOpen(true) };
     const handleInfoTolltipOpen = () => { setIsInfoTooltipOpen(true) };
-    const handleCardClick = (link) => { setSelectedCard(link) }
+    const handleCardClick = (link) => { setSelectedCard(link) };
 
-    React.useEffect(
-        ()=>{handleTokenCheck()},[]
-    );
+    React.useEffect( ()=>{handleTokenCheck()},[] );
 
     const closeAllPopups = () => {
         setIsEditProfilePopupOpen(false);

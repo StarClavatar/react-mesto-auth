@@ -1,0 +1,25 @@
+.element-grid__remove-button {
+    background-image: url(../../../images/Trash.svg);
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-color: transparent;
+    padding: 0;
+    width: 22px;
+    height: 19px;
+    border: 0;
+    transition: .2s;
+    outline: none;
+    position: absolute;
+    top: 18px;
+    right: 15px;
+}
+
+.element-grid__remove-button_hidden {
+    display: none;
+}
+
+.element-grid__remove-button:hover {
+    opacity: .6;
+    cursor: pointer;
+}

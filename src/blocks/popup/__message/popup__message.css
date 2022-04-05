@@ -1,0 +1,17 @@
+.popup__message {
+    margin: 0;
+    font-family: 'Inter';
+    font-weight: 900;
+    font-size: 24px;
+    line-height: 29px;
+    text-align: center;
+    color: #000000;
+    white-space: pre-wrap;
+}
+
+@media screen and (max-width: 740px) {
+    .popup__message {
+        font-size: 20px;
+        line-height: 24px;
+    }
+}

@@ -1,0 +1,14 @@
+.popup__container_place-entrance {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 430px;
+    height: 330px;
+}
+
+@media screen and (max-width: 740px) {
+    .popup__container_place-entrance {
+        max-width: 280px;
+        height: 340px;
+    }
+}

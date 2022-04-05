@@ -1,0 +1,7 @@
+.element-grid__like-counter {
+    position: absolute;
+    bottom: 19px;
+    right: 22px;
+    font-size: 13px;
+    line-height: 16px;
+  }

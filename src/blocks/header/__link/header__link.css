@@ -1,0 +1,12 @@
+.header__link {
+    padding-top: 6px;
+}
+
+.header__link:hover {
+    opacity: 0.6;
+}
+@media screen and (max-width: 879px) {
+    .header__link {
+        margin: 0 34px 0 0;
+    }
+}

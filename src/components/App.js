@@ -182,7 +182,7 @@ function App(props) {
                     /> 
 
                     <ImagePopup 
-                        isOpen={selectedCard} 
+                        link={selectedCard} 
                         onClose={closeAllPopups} 
                     />
 

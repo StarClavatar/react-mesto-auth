@@ -165,11 +165,9 @@ function App(props) {
 
     return (
         <CurrentUserContext.Provider value={currentUser}>
-
             <Header emal={email} onSignOut={handleSignOut}/>
-
             <Switch>
-
+                
                 <Route exact path="/">
                     <ProtectedRoute
                         component={Main}
@@ -182,52 +180,39 @@ function App(props) {
                         onCardClick={handleCardClick}
                         onCardDelete={handleCardDelete}
                     />
-
                     <EditProfilePopup 
                         isOpen={isEditProfilePopupOpen} 
                         onUpdateUser={handleUpdateUser} 
                         onClose={closeAllPopups}
                     />  
-
                     <AddPlacePopup 
                         isOpen={isAddPlacePopupOpen} 
                         onAddPlace={handleAddPlaceSubmit} 
                         onClose={closeAllPopups}
                     />
-
                     <EditAvatarPopup 
                         isOpen={isEditAvatarPopupOpen} 
                         onUpdateAvatar={handleUpdateAvatar} 
                         onClose={closeAllPopups} 
                     /> 
-
                     <ImagePopup 
                         link={selectedCard} 
                         onClose={closeAllPopups} 
                     />
-
                 </Route>
 
                 <Route path="/sign-in">
                     <LogIn onAuthorise={handleAuthorize} />
-
                 </Route>
 
                 <Route path="/sign-up">
                     <Register onRegister={handleRegister}/>
                 </Route>
 
-                {/* <Route path="/">
-                    {email ? <Redirect to="/" /> : <Redirect to="/sign-in" />}
-                </Route> */}
                 <Redirect to={email ? '/' : '/sign-in'} />
-
             </Switch>
-            
             <InfoToolTip isOpen={isInfoTooltipOpen} tooltipMessage={tooltipMessage} tooltipIsOk={tooltipIsOk} onClose={closeAllPopups}/>
-            
             <Footer />      
-            
         </CurrentUserContext.Provider>
     );
 }

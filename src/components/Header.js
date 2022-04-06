@@ -15,13 +15,13 @@ function Header(props) {
     } else if (location.pathname==='/sign-up') {
         link = 'sign-in';
         linkText = 'Вход';
-    } else if (location.pathname==='/main') {
+    } else if (location.pathname==='') {
         link = 'sign-in';
         linkText = 'Выход';
     }
 
     function handleLinkClick(){
-        if (location.pathname==='/main') { 
+        if (location.pathname==='') { 
             props.onSignOut();
         }
     }

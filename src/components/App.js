@@ -25,15 +25,35 @@ function App(props) {
     const [selectedCard, setSelectedCard] = React.useState(null);
     const [cards, setCards] = React.useState([]);
     const [email,setEmail] = React.useState('');
-    const [isRegisered, setIsRegitered] = React.useState(false);
+    const [tooltipMessage, setTooltipMessage] = React.useState('');
+    const [tooltipIsOk, setTooltipIsOk] = React.useState(false);
     
     const handleEditProfileClick = () => { setIsEditProfilePopupOpen(true) };
     const handleAddPlaceClick = () => { setIsAddPlacePopupOpen(true) }; 
     const handleEditAvatarClick = () => { setIsEditAvatarPopupOpen(true) };
-    const handleInfoTolltipOpen = () => { setIsInfoTooltipOpen(true) };
     const handleCardClick = (link) => { setSelectedCard(link) };
 
+    const handleInfoTolltipOpen = (tooltipMessage, tooltipIsOk) => {
+        setTooltipIsOk(tooltipIsOk);
+        setTooltipMessage(tooltipMessage);
+        setIsInfoTooltipOpen(true); 
+    };
+    
     React.useEffect( ()=>{handleTokenCheck()},[] );
+
+    React.useEffect( 
+        ()=>{
+            //загружаем профиль пользователя и карточки 
+            Promise.all([Api.getProfile(), Api.getInitialCards()])
+            .then(([profile, cards]) => {
+                //отображаем информацию профиля    
+                setCurrentUser(profile);
+                //рисуем все карточки
+                setCards(cards);
+            })
+            .catch(err => { console.log(err) }); 
+        },
+        [email]);
 
     const closeAllPopups = () => {
         setIsEditProfilePopupOpen(false);
@@ -88,6 +108,7 @@ function App(props) {
             console.log (res)
             setCards ((prevState)=> prevState.filter((c) => c._id !== card._id && c));
         })
+        .catch(err=>console.log(err));
     }
 
     function handleTokenCheck(){
@@ -100,15 +121,22 @@ function App(props) {
                     handleLogin(res.data.email); 
                 }
             })
+            .catch(err=>console.log(err))
         }; 
     }
 
     function handleRegister (email,password) {
         Auth.register(email, password)
         .then((res) => {
-            setIsRegitered(!res.error);
-            handleInfoTolltipOpen();
-        });
+            handleInfoTolltipOpen(
+                res.error ? 
+                    'Что-то пошло не так. \n Попробуйте еще раз' :
+                    'Вы успешно \n зарегистрировались!',
+                !res.error
+            );
+             
+        })
+        .catch(err=>console.log(err));
     }
 
     function handleAuthorize(email,password) {
@@ -117,8 +145,11 @@ function App(props) {
             if (data.token){
                 localStorage.setItem('token',data.token);
                 handleLogin(email);
+            } else {
+                handleInfoTolltipOpen('Неправильный \n логин или пароль', false)
             }
         })
+        .catch(err=>handleInfoTolltipOpen('Что-то пошло не так. \n попробуйте еще раз.', false));
     }
     
     function handleSignOut() {
@@ -129,16 +160,7 @@ function App(props) {
 
     function handleLogin(email){
         setEmail(email);
-        props.history.push('/main')
-        //загружаем профиль пользователя и карточки 
-        Promise.all([Api.getProfile(), Api.getInitialCards()])
-        .then(([profile, cards]) => {
-            //отображаем информацию профиля    
-            setCurrentUser(profile);
-            //рисуем все карточки
-            setCards(cards);
-        })
-        .catch(err => { console.log(err) }); 
+        props.history.push('/main');
     }
 
     return (
@@ -148,7 +170,7 @@ function App(props) {
 
             <Switch>
 
-                <Route path="/main">
+                <Route exact path="/">
                     <ProtectedRoute
                         component={Main}
                         email={email}
@@ -188,18 +210,21 @@ function App(props) {
 
                 <Route path="/sign-in">
                     <LogIn onAuthorise={handleAuthorize} />
+
                 </Route>
 
                 <Route path="/sign-up">
                     <Register onRegister={handleRegister}/>
-                    <InfoToolTip isOpen={isInfoTooltipOpen} isRegisered={isRegisered} onClose={closeAllPopups}/>
                 </Route>
 
-                <Route exact path="/">
-                    {email ? <Redirect to="/main" /> : <Redirect to="/sign-in" />}
-                </Route>
+                {/* <Route path="/">
+                    {email ? <Redirect to="/" /> : <Redirect to="/sign-in" />}
+                </Route> */}
+                <Redirect to={email ? '/' : '/sign-in'} />
 
             </Switch>
+            
+            <InfoToolTip isOpen={isInfoTooltipOpen} tooltipMessage={tooltipMessage} tooltipIsOk={tooltipIsOk} onClose={closeAllPopups}/>
             
             <Footer />      
             

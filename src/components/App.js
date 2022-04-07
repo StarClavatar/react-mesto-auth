@@ -43,15 +43,17 @@ function App(props) {
 
     React.useEffect( 
         ()=>{
-            //загружаем профиль пользователя и карточки 
-            Promise.all([Api.getProfile(), Api.getInitialCards()])
-            .then(([profile, cards]) => {
-                //отображаем информацию профиля    
-                setCurrentUser(profile);
-                //рисуем все карточки
-                setCards(cards);
-            })
-            .catch(err => { console.log(err) }); 
+            if (email) {
+                //загружаем профиль пользователя и карточки 
+                Promise.all([Api.getProfile(), Api.getInitialCards()])
+                .then(([profile, cards]) => {
+                    //отображаем информацию профиля    
+                    setCurrentUser(profile);
+                    //рисуем все карточки
+                    setCards(cards);
+                })
+                .catch(err => { console.log(err) })
+            }
         },
         [email]);
 
